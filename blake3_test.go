@@ -1,4 +1,4 @@
-package main
+package blake3
 
 import (
 	"encoding/hex"
@@ -8,7 +8,11 @@ import (
 
 func TestHasher(t *testing.T) {
 	hasher := NewHasher()
-	//fmt.Fprint(hasher, "Abcd")
+	hasher.Write(make([]byte, 0))
 	bytes := hasher.Finalize(64)
 	fmt.Println(hex.EncodeToString(bytes))
+}
+
+func TestHash(t *testing.T) {
+	fmt.Println(hex.EncodeToString(Hash(make([]byte, 0), 64)))
 }
