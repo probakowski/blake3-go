@@ -28,13 +28,13 @@ func (h *hasher) Write(p []byte) (n int, err error) {
 	if n == 0 {
 		p = make([]byte, 1)
 	}
-	C.blake3_hasher_update(&h.hash, unsafe.Pointer(&p[0]), C.ulong(n))
+	C.blake3_hasher_update(&h.hash, unsafe.Pointer(&p[0]), C.size_t(n))
 	return
 }
 
 func (h *hasher) Finalize(len int) (out []byte) {
 	out = make([]byte, len)
-	C.blake3_hasher_finalize(&h.hash, (*C.uchar)(unsafe.Pointer(&out[0])), C.ulong(len))
+	C.blake3_hasher_finalize(&h.hash, (*C.uchar)(unsafe.Pointer(&out[0])), C.size_t(len))
 	return
 }
 
@@ -50,6 +50,6 @@ func Hash(data []byte, outputLength int) (out []byte) {
 	if inputLength == 0 {
 		data = make([]byte, 1)
 	}
-	C.hash(unsafe.Pointer(&data[0]), C.ulong(inputLength), (*C.uchar)(unsafe.Pointer(&out[0])), C.ulong(outputLength))
+	C.hash(unsafe.Pointer(&data[0]), C.size_t(inputLength), (*C.uchar)(unsafe.Pointer(&out[0])), C.size_t(outputLength))
 	return
 }
